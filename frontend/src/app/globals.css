@@ -251,3 +251,28 @@ body {
   }
 }
 
+/* Section Titles */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: var(--accent-color);
+}
+
+.quests-section {
+  padding: 20px 0 60px;
+}
+
