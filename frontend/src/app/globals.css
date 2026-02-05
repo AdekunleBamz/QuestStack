@@ -417,3 +417,80 @@ body {
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
+/* Panel Styles */
+.panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.panel-content {
+  padding: 24px;
+}
+
+.panel-locked {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.panel-lock-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.panel-lock-message {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+/* Panel Tabs */
+.panel-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.panel-tab {
+  flex: 1;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.panel-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.panel-tab-active {
+  color: var(--accent-color);
+}
+
+.panel-tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-color);
+}
+
