@@ -23,19 +23,39 @@ export function QuestCard({ questId, title, description, rewardAmount, status }:
     claimReward(questId);
   };
 
+  const getStatusBadgeClass = () => {
+    switch (status) {
+      case 'active':
+        return 'status-badge status-active';
+      case 'completed':
+        return 'status-badge status-completed';
+      case 'claimed':
+        return 'status-badge status-claimed';
+      default:
+        return 'status-badge';
+    }
+  };
+
   return (
     <div className="quest-card">
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <p>Reward: {rewardAmount} tokens</p>
-      <p>Status: {status}</p>
+      <div className="quest-header">
+        <h3>{title}</h3>
+        <span className={getStatusBadgeClass()}>
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </span>
+      </div>
+      <p className="quest-description">{description}</p>
+      <div className="quest-reward">
+        <span className="reward-icon">💰</span>
+        <span className="reward-amount">{rewardAmount} tokens</span>
+      </div>
       {status === 'active' && (
-        <button onClick={handleComplete} disabled={loading}>
+        <button onClick={handleComplete} disabled={loading} className="quest-btn">
           {loading ? 'Processing...' : 'Complete Quest'}
         </button>
       )}
       {status === 'completed' && (
-        <button onClick={handleClaim} disabled={loading}>
+        <button onClick={handleClaim} disabled={loading} className="quest-btn quest-btn-success">
           {loading ? 'Processing...' : 'Claim Reward'}
         </button>
       )}
