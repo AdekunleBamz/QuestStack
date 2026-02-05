@@ -549,3 +549,43 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* Panel Button Styles */
+.panel-btn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.panel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.panel-btn-primary {
+  background: var(--accent-color);
+  color: white;
+}
+
+.panel-btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.panel-btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.panel-btn-secondary:hover:not(:disabled) {
+  background: var(--border-color);
+  transform: translateY(-2px);
+}
+
