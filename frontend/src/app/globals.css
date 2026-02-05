@@ -73,23 +73,54 @@ body {
 }
 
 .quest-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
   margin: 16px 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.quest-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent-color);
 }
 
 .quest-card h3 {
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.quest-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
   margin-bottom: 8px;
 }
 
 .quest-card button {
-  margin-top: 12px;
-  padding: 8px 16px;
-  background: #5546ff;
+  margin-top: 16px;
+  padding: 10px 20px;
+  background: var(--accent-color);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.quest-card button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.quest-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
