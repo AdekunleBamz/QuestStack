@@ -13,6 +13,9 @@ interface TransactionButtonProps {
   functionName: string;
   functionArgs: any[];
   label: string;
+  variant?: 'primary' | 'secondary' | 'success';
+  size?: 'small' | 'medium' | 'large';
+  fullWidth?: boolean;
   onSuccess?: (result: any) => void;
   onError?: (error: any) => void;
 }
@@ -23,6 +26,9 @@ export function TransactionButton({
   functionName,
   functionArgs,
   label,
+  variant = 'primary',
+  size = 'medium',
+  fullWidth = false,
   onSuccess,
   onError,
 }: TransactionButtonProps) {
@@ -53,9 +59,32 @@ export function TransactionButton({
     }
   };
 
+  const variantClasses = {
+    primary: 'tx-btn-primary',
+    secondary: 'tx-btn-secondary',
+    success: 'tx-btn-success',
+  };
+
+  const sizeClasses = {
+    small: 'tx-btn-small',
+    medium: 'tx-btn-medium',
+    large: 'tx-btn-large',
+  };
+
   return (
-    <button onClick={handleClick} disabled={loading} className="transaction-btn">
-      {loading ? 'Processing...' : label}
+    <button
+      onClick={handleClick}
+      disabled={loading}
+      className={`transaction-btn ${variantClasses[variant]} ${sizeClasses[size]} ${fullWidth ? 'tx-btn-full' : ''}`}
+    >
+      {loading ? (
+        <span className="tx-btn-loading">
+          <span className="tx-btn-spinner"></span>
+          Processing...
+        </span>
+      ) : (
+        label
+      )}
     </button>
   );
 }
