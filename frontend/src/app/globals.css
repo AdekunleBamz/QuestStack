@@ -44,17 +44,32 @@ body {
 
 .connect-wallet-btn {
   padding: 12px 24px;
-  background: #5546ff;
+  background: var(--accent-color);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(85, 70, 255, 0.3);
 }
 
 .connect-wallet-btn:hover {
-  background: #4536ef;
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(85, 70, 255, 0.4);
+}
+
+.connect-wallet-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(85, 70, 255, 0.3);
+}
+
+.connect-wallet-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .quest-card {
