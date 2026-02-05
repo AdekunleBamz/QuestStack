@@ -13,7 +13,12 @@ export function GovernancePanel() {
   const [proposalDescription, setProposalDescription] = useState('');
 
   if (!isAuthenticated) {
-    return <p>Please connect your wallet to participate in governance</p>;
+    return (
+      <div className="panel panel-locked">
+        <div className="panel-lock-icon">🗳️</div>
+        <p className="panel-lock-message">Please connect your wallet to participate in governance</p>
+      </div>
+    );
   }
 
   const handleCreateProposal = () => {
@@ -24,6 +29,8 @@ export function GovernancePanel() {
         process.env.NEXT_PUBLIC_QUEST_CONTRACT || '',
         'update-quest-parameters'
       );
+      setProposalTitle('');
+      setProposalDescription('');
     }
   };
 
@@ -32,23 +39,44 @@ export function GovernancePanel() {
   };
 
   return (
-    <div className="governance-panel">
-      <h2>Governance</h2>
-      <div>
-        <input
-          type="text"
-          value={proposalTitle}
-          onChange={(e) => setProposalTitle(e.target.value)}
-          placeholder="Proposal Title"
-        />
-        <textarea
-          value={proposalDescription}
-          onChange={(e) => setProposalDescription(e.target.value)}
-          placeholder="Proposal Description"
-        />
-        <button onClick={handleCreateProposal} disabled={loading}>
-          {loading ? 'Processing...' : 'Create Proposal'}
-        </button>
+    <div className="panel governance-panel">
+      <div className="panel-header">
+        <h2 className="panel-title">🗳️ Governance</h2>
+        <span className="panel-badge">DAO</span>
+      </div>
+      
+      <div className="panel-content">
+        <div className="governance-form">
+          <div className="form-group">
+            <label className="input-label">Proposal Title</label>
+            <input
+              type="text"
+              value={proposalTitle}
+              onChange={(e) => setProposalTitle(e.target.value)}
+              placeholder="Enter proposal title..."
+              className="form-input"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label className="input-label">Description</label>
+            <textarea
+              value={proposalDescription}
+              onChange={(e) => setProposalDescription(e.target.value)}
+              placeholder="Describe your proposal in detail..."
+              className="form-textarea"
+              rows={4}
+            />
+          </div>
+          
+          <button
+            onClick={handleCreateProposal}
+            disabled={loading || !proposalTitle || !proposalDescription}
+            className="panel-btn panel-btn-primary"
+          >
+            {loading ? 'Creating...' : 'Create Proposal'}
+          </button>
+        </div>
       </div>
     </div>
   );
