@@ -1,0 +1,29 @@
+{
+  "name": "queststack",
+  "version": "1.0.0",
+  "description": "Decentralized Quest & Reward Platform on Stacks",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "contracts"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "npm run build:contracts && npm run build:frontend && npm run build:backend",
+    "build:contracts": "cd contracts && clarinet build",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "test": "cd contracts && clarinet test",
+    "deploy": "cd contracts && clarinet deployments apply -p mainnet"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

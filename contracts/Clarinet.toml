@@ -1,0 +1,29 @@
+[project]
+name = "queststack"
+requirements = []
+
+[contracts.quest-contract]
+path = "contracts/quest-contract.clar"
+depends_on = ["reward-token"]
+
+[contracts.reward-token]
+path = "contracts/reward-token.clar"
+
+[contracts.staking-contract]
+path = "contracts/staking-contract.clar"
+depends_on = ["reward-token"]
+
+[contracts.governance-contract]
+path = "contracts/governance-contract.clar"
+depends_on = ["quest-contract", "reward-token"]
+
+[networks.mainnet]
+node_url = "https://api.mainnet.hiro.so"
+deployment_fee_rate = 2000
+
+[deployment.mainnet]
+[deployment.mainnet.quest-contract]
+[deployment.mainnet.reward-token]
+[deployment.mainnet.staking-contract]
+[deployment.mainnet.governance-contract]
+

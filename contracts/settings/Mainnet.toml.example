@@ -1,0 +1,14 @@
+# Mainnet Deployment Settings Example
+# Copy this file to Mainnet.toml and add your mnemonic
+
+[network]
+name = "mainnet"
+node_url = "https://api.mainnet.hiro.so"
+
+# Your mnemonic (12 or 24 words)
+# Replace with your actual mnemonic phrase
+mnemonic = "your twelve word mnemonic phrase goes here separated by spaces"
+
+# Optional: Specify account index (default is 0)
+# account_index = 0
+

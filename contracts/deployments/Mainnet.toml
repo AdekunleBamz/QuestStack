@@ -1,0 +1,9 @@
+# Mainnet Deployment Configuration
+# This file references the settings in settings/Mainnet.toml
+
+[network]
+name = "mainnet"
+
+# Contract deployments will be listed here after deployment
+# Clarinet will automatically update this file during deployment
+
