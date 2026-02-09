@@ -1,6 +1,22 @@
 /**
  * Custom hook for @stacks/connect integration
  * Handles wallet connection and authentication
+ * 
+ * @module hooks/useStacksConnect
+ * @description Provides wallet connection functionality using @stacks/connect
+ * 
+ * @example
+ * import { useStacksConnect } from '@/hooks/useStacksConnect';
+ * 
+ * function MyComponent() {
+ *   const { connectWallet, isAuthenticated, userData } = useStacksConnect();
+ *   
+ *   if (isAuthenticated) {
+ *     return <p>Connected: {userData.profile.stxAddress.mainnet}</p>;
+ *   }
+ *   
+ *   return <button onClick={connectWallet}>Connect Wallet</button>;
+ * }
  */
 
 import { useConnect } from '@stacks/connect';
