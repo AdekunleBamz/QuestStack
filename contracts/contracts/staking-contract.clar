@@ -90,3 +90,8 @@
   )
 )
 
+;; Get minimum stake amount
+(define-read-only (get-minimum-stake)
+  (ok minimum-stake)
+)
+
