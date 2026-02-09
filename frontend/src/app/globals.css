@@ -78,3 +78,36 @@ body {
   cursor: pointer;
 }
 
+/* Wallet connected state */
+.wallet-connected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.wallet-address {
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: var(--success-color);
+}
+
+/* Transaction states */
+.transaction-success {
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 4px;
+  color: var(--success-color);
+}
+
+.transaction-error {
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 4px;
+  color: var(--error-color);
+}
+
