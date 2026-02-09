@@ -119,3 +119,10 @@
   (ok (default-to u0 (map-get? quest-completions user)))
 )
 
+;; Pause functionality
+(define-data-var paused bool false)
+
+(define-read-only (is-paused)
+  (ok (var-get paused))
+)
+
