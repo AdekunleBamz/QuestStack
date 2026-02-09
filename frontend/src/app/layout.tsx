@@ -1,3 +1,11 @@
+/**
+ * QuestStack - Root Layout
+ * Main application layout with metadata configuration
+ * 
+ * @layout
+ * @description Provides root layout with metadata for SEO
+ */
+
 import type { Metadata } from 'next';
 import './globals.css';
 
