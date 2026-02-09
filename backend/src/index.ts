@@ -93,6 +93,23 @@ app.post('/webhooks/vote-cast', verifyWebhook, (req, res) => {
   res.status(200).json({ received: true });
 });
 
+// Webhook metrics tracking
+const webhookMetrics: Record<string, { count: number; lastReceived: string }> = {
+  'quest-created': { count: 0, lastReceived: '' },
+  'quest-completed': { count: 0, lastReceived: '' },
+  'reward-claimed': { count: 0, lastReceived: '' },
+  'token-mint': { count: 0, lastReceived: '' },
+  'token-transfer': { count: 0, lastReceived: '' },
+  'stake-deposited': { count: 0, lastReceived: '' },
+  'stake-withdrawn': { count: 0, lastReceived: '' },
+  'proposal-created': { count: 0, lastReceived: '' },
+  'vote-cast': { count: 0, lastReceived: '' },
+};
+
+app.get('/metrics/webhooks', (req, res) => {
+  res.json(webhookMetrics);
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'queststack-backend' });
