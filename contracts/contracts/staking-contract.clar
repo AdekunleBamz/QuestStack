@@ -90,3 +90,8 @@
   )
 )
 
+;; Get reward rate (APY calculation helper)
+(define-read-only (get-reward-rate)
+  (ok reward-rate)
+)
+
