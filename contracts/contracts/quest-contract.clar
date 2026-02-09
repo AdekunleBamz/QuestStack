@@ -27,6 +27,9 @@
 
 (define-map quest-completions principal uint) ;; Track completions per user
 
+;; Events for indexing
+(define-map quest-events uint (list 100 { event-type: (string-ascii 20), block-height: uint, data: (buff 500) }))
+
 ;; Clarity 4: contract-hash? to verify reward token contract
 (define-read-only (verify-reward-contract)
   (contract-hash? reward-token-contract)
