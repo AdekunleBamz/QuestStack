@@ -5,6 +5,14 @@
 (define-constant reward-token-contract (unwrap-panic (contract-of? .reward-token)))
 (define-constant minimum-stake u1000000) ;; 1 token (6 decimals)
 
+;; Error codes
+(define-constant err-below-minimum u1)
+(define-constant err-insufficient-balance u2)
+(define-constant err-no-stake u3)
+(define-constant err-zero-amount u4)
+(define-constant err-reward-zero u5)
+(define-constant err-not-owner u6)
+
 ;; Staking data
 (define-map stakes principal uint)
 (define-map staking-rewards principal uint)
