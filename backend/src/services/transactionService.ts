@@ -1,6 +1,12 @@
 /**
  * Transaction Service using @stacks/transactions
  * Backend service for transaction validation and monitoring
+ * 
+ * @example
+ * import { broadcastTx, waitForConfirmation } from '@/services/transactionService';
+ * 
+ * const result = await broadcastTx(signedTransaction);
+ * const status = await waitForConfirmation(txId);
  */
 
 import {
