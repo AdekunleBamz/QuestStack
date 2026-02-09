@@ -9,6 +9,17 @@
 (define-constant status-completed u2)
 (define-constant status-cancelled u3)
 
+;; Error codes - Named constants for better debugging
+(define-constant err-deadline-past u1)
+(define-constant err-reward-zero u2)
+(define-constant err-quest-not-active u3)
+(define-constant err-quest-expired u4)
+(define-constant err-quest-completed u5)
+(define-constant err-not-completed u6)
+(define-constant err-no-completer u7)
+(define-constant err-not-creator u8)
+(define-constant err-not-active u10)
+
 ;; Quest data structure
 (define-data-var quest-counter uint u0)
 
