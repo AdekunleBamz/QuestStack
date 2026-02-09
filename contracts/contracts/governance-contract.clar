@@ -131,3 +131,11 @@
   (ok (default-to false (map-get? has-voted (tuple (proposal-id proposal-id) (voter user)))))
 )
 
+(define-read-only (get-voting-period)
+  (ok voting-period)
+)
+
+(define-read-only (get-minimum-votes)
+  (ok minimum-votes)
+)
+
