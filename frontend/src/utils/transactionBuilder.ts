@@ -1,6 +1,20 @@
 /**
  * Transaction Builder Utilities using @stacks/transactions
  * Comprehensive transaction building for all QuestStack operations
+ * 
+ * @module utils/transactionBuilder
+ * @description Provides transaction builders for all QuestStack smart contract functions
+ * 
+ * @example
+ * import { buildCreateQuestTransaction, buildCompleteQuestTransaction } from '@/utils/transactionBuilder';
+ * 
+ * const tx = await buildCreateQuestTransaction(
+ *   userKey,
+ *   'Complete 10 quests',
+ *   'Complete 10 quests to earn 100 tokens',
+ *   100000000,
+ *   Math.floor(Date.now() / 1000) + 86400
+ * );
  */
 
 import {
