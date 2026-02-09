@@ -14,12 +14,14 @@ A decentralized Quest & Reward Platform built on Stacks blockchain using Clarity
 ## Architecture
 
 ### Smart Contracts (4 Clarity 4 Contracts)
+
 1. **quest-contract** - Quest creation, completion, and reward management
 2. **reward-token** - ERC-20-like reward token
 3. **staking-contract** - Token staking for premium quests
 4. **governance-contract** - DAO-style governance
 
 ### Chainhooks (9 Hooks)
+
 1. Quest Created Hook
 2. Quest Completed Hook
 3. Reward Claimed Hook
@@ -40,6 +42,7 @@ A decentralized Quest & Reward Platform built on Stacks blockchain using Clarity
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - Clarinet
 - Stacks wallet (Hiro Wallet or Xverse)
@@ -64,26 +67,130 @@ npm run dev:backend
 ### Testing
 
 ```bash
+# Test smart contracts
 npm run test
+
+# Run linting
+npm run lint
+
+# Type checking
+npm run typecheck
 ```
 
 ### Deployment
 
 ```bash
+# Deploy contracts
 npm run deploy
+
+# Build all
+npm run build
 ```
 
 ## Project Structure
 
 ```
 queststack/
-├── contracts/          # Clarity 4 smart contracts
-├── frontend/          # Next.js frontend
-├── backend/           # Node.js backend & chainhooks
-└── scripts/           # Deployment scripts
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # GitHub Actions CI/CD
+├── contracts/
+│   ├── contracts/
+│   │   ├── quest-contract.clar
+│   │   ├── reward-token.clar
+│   │   ├── staking-contract.clar
+│   │   └── governance-contract.clar
+│   └── Clarinet.toml
+├── frontend/
+│   ├── src/
+│   │   ├── app/                 # Next.js App Router
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── globals.css
+│   │   ├── components/
+│   │   │   ├── WalletConnect.tsx
+│   │   │   ├── QuestCard.tsx
+│   │   │   ├── TransactionButton.tsx
+│   │   │   ├── StakingPanel.tsx
+│   │   │   └── GovernancePanel.tsx
+│   │   ├── hooks/
+│   │   │   ├── useStacksConnect.ts
+│   │   │   └── useTransactions.ts
+│   │   ├── services/
+│   │   │   └── contractService.ts
+│   │   └── utils/
+│   │       └── transactionBuilder.ts
+│   └── package.json
+├── backend/
+│   ├── src/
+│   │   ├── index.ts             # Express server
+│   │   ├── chainhooks/
+│   │   │   └── register.ts     # Chainhook registration
+│   │   └── services/
+│   │       └── transactionService.ts
+│   └── package.json
+├── scripts/
+│   └── deploy.ts               # Deployment scripts
+└── package.json
 ```
+
+## Environment Variables
+
+### Frontend
+
+```env
+NEXT_PUBLIC_QUEST_CONTRACT=SP...
+NEXT_PUBLIC_REWARD_TOKEN_CONTRACT=SP...
+NEXT_PUBLIC_STAKING_CONTRACT=SP...
+NEXT_PUBLIC_GOVERNANCE_CONTRACT=SP...
+```
+
+### Backend
+
+```env
+PORT=3001
+WEBHOOK_SECRET=your-webhook-secret
+QUEST_CONTRACT_ADDRESS=SP...
+REWARD_TOKEN_CONTRACT_ADDRESS=SP...
+STAKING_CONTRACT_ADDRESS=SP...
+GOVERNANCE_CONTRACT_ADDRESS=SP...
+WEBHOOK_BASE_URL=https://your-backend.com
+CHAINHOOKS_API_KEY=your-api-key
+```
+
+## API Endpoints
+
+### Health Checks
+
+- `GET /health` - Basic health check
+- `GET /health/detailed` - Detailed status with memory usage
+
+### Webhooks
+
+All chainhook endpoints require Bearer token authentication:
+
+- `POST /webhooks/quest-created`
+- `POST /webhooks/quest-completed`
+- `POST /webhooks/reward-claimed`
+- `POST /webhooks/token-mint`
+- `POST /webhooks/token-transfer`
+- `POST /webhooks/stake-deposited`
+- `POST /webhooks/stake-withdrawn`
+- `POST /webhooks/proposal-created`
+- `POST /webhooks/vote-cast`
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## Security
+
+For security issues, please contact the maintainers directly.
 
 ## License
 
 MIT
-
