@@ -1,6 +1,24 @@
 /**
  * Register all 9 Chainhooks for QuestStack on MAINNET
  * Uses @hirosystems/chainhooks-client
+ * 
+ * @module chainhooks/register
+ * @description This module registers all chainhooks needed for QuestStack to monitor
+ *              on-chain events from the 4 smart contracts.
+ * 
+ * @requires CHAINKOOKS_API_KEY - Hiro API key for chainhooks service
+ * @requires QUEST_CONTRACT_ADDRESS - Deployed quest contract address
+ * @requires REWARD_TOKEN_CONTRACT_ADDRESS - Deployed reward token address
+ * @requires STAKING_CONTRACT_ADDRESS - Deployed staking contract address
+ * @requires GOVERNANCE_CONTRACT_ADDRESS - Deployed governance contract address
+ * @requires WEBHOOK_BASE_URL - Backend URL for receiving webhook events
+ * 
+ * @example
+ * // Register all chainhooks
+ * import { registerAllChainhooks } from './chainhooks/register';
+ * 
+ * await registerAllChainhooks();
+ * console.log('Chainhooks registered!');
  */
 
 import { ChainhooksClient, CHAINHOOKS_BASE_URL, ChainhookDefinition } from '@hirosystems/chainhooks-client';
