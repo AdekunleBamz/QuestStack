@@ -7,6 +7,14 @@
 (define-map allowances (tuple (owner principal) (spender principal)) uint)
 (define-constant total-supply u1000000000) ;; 1 billion tokens
 
+;; Error codes
+(define-constant err-not-authorized u1)
+(define-constant err-insufficient-balance u2)
+(define-constant err-mint-exceeds-supply u3)
+(define-constant err-zero-amount u4)
+(define-constant err-allowance-exceeded u5)
+(define-constant err-burn-exceeds-balance u6)
+
 ;; Clarity 4: restrict-assets? for secure transfers
 (define-public (transfer (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))
   (begin
