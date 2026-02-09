@@ -1,6 +1,7 @@
 /**
  * Register all 9 Chainhooks for QuestStack on MAINNET
  * Uses @hirosystems/chainhooks-client
+ * Enhanced with retry logic and improved error handling
  */
 
 import { ChainhooksClient, CHAINHOOKS_BASE_URL, ChainhookDefinition } from '@hirosystems/chainhooks-client';
@@ -8,33 +9,55 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 5000; // 5 seconds
+
 const client = new ChainhooksClient({
-  baseUrl: CHAINHOOKS_BASE_URL.mainnet, // https://api.mainnet.hiro.so
+  baseUrl: CHAINHOOKS_BASE_URL.mainnet,
   apiKey: process.env.CHAINHOOKS_API_KEY!,
 });
 
-// Contract addresses - UPDATE THESE AFTER DEPLOYMENT
 const QUEST_CONTRACT = process.env.QUEST_CONTRACT_ADDRESS || 'SP...';
 const REWARD_TOKEN_CONTRACT = process.env.REWARD_TOKEN_CONTRACT_ADDRESS || 'SP...';
 const STAKING_CONTRACT = process.env.STAKING_CONTRACT_ADDRESS || 'SP...';
 const GOVERNANCE_CONTRACT = process.env.GOVERNANCE_CONTRACT_ADDRESS || 'SP...';
 
-// Webhook endpoint - UPDATE WITH YOUR BACKEND URL
 const WEBHOOK_BASE_URL = process.env.WEBHOOK_BASE_URL || 'https://your-backend.com/webhooks';
 
-async function registerChainhook(definition: ChainhookDefinition) {
+// Retry helper function
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  retries: number = MAX_RETRIES
+): Promise<T> {
   try {
-    const result = await client.registerChainhook(definition);
-    console.log(`✅ Registered: ${definition.name} - UUID: ${result.uuid}`);
-    return result;
+    return await fn();
   } catch (error: any) {
-    console.error(`❌ Failed to register ${definition.name}:`, error.message);
+    if (retries > 0) {
+      console.log(`Retrying in ${RETRY_DELAY}ms... (${retries} retries left)`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+      return retryWithBackoff(fn, retries - 1);
+    }
     throw error;
   }
 }
 
+// Register a chainhook with retry logic
+async function registerChainhook(definition: ChainhookDefinition): Promise<string> {
+  return retryWithBackoff(async () => {
+    try {
+      const result = await client.registerChainhook(definition);
+      console.log(`✅ Registered: ${definition.name}`);
+      console.log(`   UUID: ${result.uuid}`);
+      return result.uuid;
+    } catch (error: any) {
+      console.error(`❌ Failed to register ${definition.name}:`, error.message);
+      throw error;
+    }
+  });
+}
+
 async function registerAllChainhooks() {
-  console.log('🚀 Registering QuestStack Chainhooks on MAINNET...\n');
+  console.log('🚀 Starting QuestStack Chainhooks registration...\n');
 
   // 1. Quest Created Hook
   await registerChainhook({
@@ -58,7 +81,6 @@ async function registerAllChainhooks() {
     options: {
       decode_clarity_values: true,
       enable_on_registration: true,
-      start_at_block_height: undefined, // Start from current block
     },
   });
 
@@ -169,111 +191,4 @@ async function registerAllChainhooks() {
 
   // 6. Stake Deposited Hook
   await registerChainhook({
-    name: 'QuestStack - Stake Deposited',
-    chain: 'stacks',
-    network: 'mainnet',
-    filters: {
-      events: [
-        {
-          type: 'contract_call',
-          contract_identifier: STAKING_CONTRACT,
-          function_name: 'stake',
-        },
-      ],
-    },
-    action: {
-      type: 'http_post',
-      url: `${WEBHOOK_BASE_URL}/stake-deposited`,
-      authorization_header: `Bearer ${process.env.WEBHOOK_SECRET || ''}`,
-    },
-    options: {
-      decode_clarity_values: true,
-      enable_on_registration: true,
-    },
-  });
-
-  // 7. Stake Withdrawn Hook
-  await registerChainhook({
-    name: 'QuestStack - Stake Withdrawn',
-    chain: 'stacks',
-    network: 'mainnet',
-    filters: {
-      events: [
-        {
-          type: 'contract_call',
-          contract_identifier: STAKING_CONTRACT,
-          function_name: 'unstake',
-        },
-      ],
-    },
-    action: {
-      type: 'http_post',
-      url: `${WEBHOOK_BASE_URL}/stake-withdrawn`,
-      authorization_header: `Bearer ${process.env.WEBHOOK_SECRET || ''}`,
-    },
-    options: {
-      decode_clarity_values: true,
-      enable_on_registration: true,
-    },
-  });
-
-  // 8. Proposal Created Hook
-  await registerChainhook({
-    name: 'QuestStack - Proposal Created',
-    chain: 'stacks',
-    network: 'mainnet',
-    filters: {
-      events: [
-        {
-          type: 'contract_call',
-          contract_identifier: GOVERNANCE_CONTRACT,
-          function_name: 'propose',
-        },
-      ],
-    },
-    action: {
-      type: 'http_post',
-      url: `${WEBHOOK_BASE_URL}/proposal-created`,
-      authorization_header: `Bearer ${process.env.WEBHOOK_SECRET || ''}`,
-    },
-    options: {
-      decode_clarity_values: true,
-      enable_on_registration: true,
-    },
-  });
-
-  // 9. Vote Cast Hook
-  await registerChainhook({
-    name: 'QuestStack - Vote Cast',
-    chain: 'stacks',
-    network: 'mainnet',
-    filters: {
-      events: [
-        {
-          type: 'contract_call',
-          contract_identifier: GOVERNANCE_CONTRACT,
-          function_name: 'vote',
-        },
-      ],
-    },
-    action: {
-      type: 'http_post',
-      url: `${WEBHOOK_BASE_URL}/vote-cast`,
-      authorization_header: `Bearer ${process.env.WEBHOOK_SECRET || ''}`,
-    },
-    options: {
-      decode_clarity_values: true,
-      enable_on_registration: true,
-    },
-  });
-
-  console.log('\n✅ All 9 Chainhooks registered successfully!');
-}
-
-// Run if called directly
-if (require.main === module) {
-  registerAllChainhooks().catch(console.error);
-}
-
-export { registerAllChainhooks };
-
+    name: '
