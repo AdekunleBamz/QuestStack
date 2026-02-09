@@ -1,5 +1,11 @@
 # QuestStack 🎯
 
+[![CI](https://github.com/AdekunleBamz/QuestStack/actions/workflows/ci.yml/badge.svg)](https://github.com/AdekunleBamz/QuestStack/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Clarity](https://img.shields.io/badge/Clarity-4.0-blue.svg)](https://docs.stacks.co/clarity)
+[![Stacks](https://img.shields.io/badge/Stacks-2.1-blue.svg)](https://stacks.co)
+
+
 A decentralized Quest & Reward Platform built on Stacks blockchain using Clarity 4 smart contracts and Hiro Chainhooks.
 
 ## Features
