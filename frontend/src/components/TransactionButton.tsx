@@ -54,7 +54,11 @@ export function TransactionButton({
   };
 
   return (
-    <button onClick={handleClick} disabled={loading} className="transaction-btn">
+    <button 
+      onClick={handleClick} 
+      disabled={loading} 
+      className={`transaction-btn ${loading ? 'transaction-loading' : ''}`}
+    >
       {loading ? 'Processing...' : label}
     </button>
   );
