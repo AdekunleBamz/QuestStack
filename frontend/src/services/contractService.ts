@@ -1,6 +1,12 @@
 /**
  * Contract Service using @stacks/transactions
  * Service layer for interacting with QuestStack contracts
+ * 
+ * @example
+ * import { getQuest, getTokenBalance } from '@/services/contractService';
+ * 
+ * const quest = await getQuest(1);
+ * const balance = await getTokenBalance('ST...');
  */
 
 import {
