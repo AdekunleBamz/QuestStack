@@ -67,3 +67,7 @@
   (ok total-supply)
 )
 
+(define-read-only (get-contract-owner)
+  (ok contract-owner)
+)
+
