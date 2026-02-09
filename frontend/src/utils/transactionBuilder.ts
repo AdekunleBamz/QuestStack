@@ -1,6 +1,7 @@
 /**
  * Transaction Builder Utilities using @stacks/transactions
  * Comprehensive transaction building for all QuestStack operations
+ * Enhanced with TypeScript types and error handling
  */
 
 import {
@@ -20,11 +21,26 @@ import {
 
 const network = new StacksMainnet();
 
-// Contract addresses
 const QUEST_CONTRACT = process.env.NEXT_PUBLIC_QUEST_CONTRACT || 'SP...';
 const REWARD_TOKEN_CONTRACT = process.env.NEXT_PUBLIC_REWARD_TOKEN_CONTRACT || 'SP...';
 const STAKING_CONTRACT = process.env.NEXT_PUBLIC_STAKING_CONTRACT || 'SP...';
 const GOVERNANCE_CONTRACT = process.env.NEXT_PUBLIC_GOVERNANCE_CONTRACT || 'SP...';
+
+interface TransactionResult {
+  txId: string;
+  rawTx: Buffer;
+}
+
+interface BuildTransactionOptions {
+  fee?: number;
+  nonce?: number;
+}
+
+// Default transaction options
+const DEFAULT_OPTIONS: BuildTransactionOptions = {
+  fee: 2000,
+  nonce: 0,
+};
 
 /**
  * Build transaction for creating a quest
@@ -34,11 +50,12 @@ export async function buildCreateQuestTransaction(
   title: string,
   description: string,
   rewardAmount: number,
-  deadline: number
-) {
+  deadline: number,
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = QUEST_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'create-quest',
@@ -52,8 +69,14 @@ export async function buildCreateQuestTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Allow,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -61,11 +84,12 @@ export async function buildCreateQuestTransaction(
  */
 export async function buildCompleteQuestTransaction(
   senderKey: string,
-  questId: number
-) {
+  questId: number,
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = QUEST_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'complete-quest',
@@ -74,8 +98,14 @@ export async function buildCompleteQuestTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Allow,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -83,11 +113,12 @@ export async function buildCompleteQuestTransaction(
  */
 export async function buildClaimRewardTransaction(
   senderKey: string,
-  questId: number
-) {
+  questId: number,
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = QUEST_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'claim-reward',
@@ -96,8 +127,14 @@ export async function buildClaimRewardTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Allow,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -105,11 +142,12 @@ export async function buildClaimRewardTransaction(
  */
 export async function buildStakeTransaction(
   senderKey: string,
-  amount: number
-) {
+  amount: number,
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = STAKING_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'stake',
@@ -118,8 +156,14 @@ export async function buildStakeTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Deny,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -127,11 +171,12 @@ export async function buildStakeTransaction(
  */
 export async function buildUnstakeTransaction(
   senderKey: string,
-  amount: number
-) {
+  amount: number,
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = STAKING_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'unstake',
@@ -140,8 +185,14 @@ export async function buildUnstakeTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Allow,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -153,11 +204,12 @@ export async function buildCreateProposalTransaction(
   description: string,
   targetContract: string,
   functionName: string,
-  parameters: any[] = []
-) {
+  parameters: any[] = [],
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = GOVERNANCE_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'propose',
@@ -172,8 +224,14 @@ export async function buildCreateProposalTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Allow,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -182,11 +240,12 @@ export async function buildCreateProposalTransaction(
 export async function buildVoteTransaction(
   senderKey: string,
   proposalId: number,
-  support: boolean
-) {
+  support: boolean,
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
   const [contractAddress, contractName] = GOVERNANCE_CONTRACT.split('.');
   
-  return makeContractCall({
+  const tx = await makeContractCall({
     contractAddress,
     contractName,
     functionName: 'vote',
@@ -198,8 +257,14 @@ export async function buildVoteTransaction(
     network,
     anchorMode: AnchorMode.Any,
     postConditionMode: PostConditionMode.Allow,
-    fee: 2000,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
 /**
@@ -208,16 +273,30 @@ export async function buildVoteTransaction(
 export async function buildSTXTransferTransaction(
   senderKey: string,
   recipient: string,
-  amount: bigint
-) {
-  return makeSTXTokenTransfer({
+  amount: bigint,
+  memo: string = 'QuestStack transfer',
+  options: BuildTransactionOptions = DEFAULT_OPTIONS
+): Promise<TransactionResult> {
+  const tx = await makeSTXTokenTransfer({
     recipient,
     amount,
     senderKey,
     network,
     anchorMode: AnchorMode.Any,
-    memo: 'QuestStack transfer',
-    fee: 2000,
+    memo,
+    fee: options.fee,
+    nonce: options.nonce,
   });
+
+  return {
+    txId: tx.txid(),
+    rawTx: tx,
+  };
 }
 
+/**
+ * Estimate transaction fee
+ */
+export function estimateFee(gasUnits: number, gasPrice: number = 1): number {
+  return gasUnits * gasPrice;
+}
