@@ -51,3 +51,19 @@ chainhooks.json
 *.secrets
 .secrets
 
+# Temporary files
+*.tmp
+*.temp
+temp/
+
+# Backend
+backend/dist/
+backend/build/
+
+# Frontend
+frontend/.next/
+frontend/out/
+
+# TypeScript
+*.tsbuildinfo
+
