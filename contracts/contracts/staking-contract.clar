@@ -11,6 +11,9 @@
 (define-map stake-timestamps principal uint)
 (define-constant reward-rate u100) ;; 1% per block
 
+;; Enhanced stake tracking
+(define-map stake-history principal (list 100 { amount: uint, timestamp: uint, type: (string-ascii 10) }))
+
 ;; Clarity 4: contract-hash? to verify reward token contract
 (define-read-only (verify-token-contract)
   (contract-hash? reward-token-contract)
