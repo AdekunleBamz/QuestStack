@@ -7,6 +7,11 @@
 (define-map allowances (tuple (owner principal) (spender principal)) uint)
 (define-constant total-supply u1000000000) ;; 1 billion tokens
 
+;; Token info
+(define-constant token-name "QuestStack Token")
+(define-constant token-symbol "QST")
+(define-constant decimals u6)
+
 ;; Clarity 4: restrict-assets? for secure transfers
 (define-public (transfer (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))
   (begin
@@ -67,3 +72,14 @@
   (ok total-supply)
 )
 
+(define-read-only (get-decimals)
+  (ok decimals)
+)
+
+(define-read-only (get-name)
+  (ok token-name)
+)
+
+(define-read-only (get-symbol)
+  (ok token-symbol)
+)
