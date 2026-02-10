@@ -27,6 +27,15 @@
 (define-constant err-not-owner u6)
 (define-constant err-description-too-long u7)
 
+;; Error codes
+(define-constant err-proposal-inactive u1)
+(define-constant err-voting-ended u2)
+(define-constant err-already-voted u3)
+(define-constant err-proposal-ended u4)
+(define-constant err-insufficient-votes u5)
+(define-constant err-not-owner u6)
+(define-constant err-description-too-long u7)
+
 ;; Proposal data
 (define-data-var proposal-counter uint u0)
 
