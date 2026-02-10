@@ -119,3 +119,17 @@
   (ok (default-to u0 (map-get? quest-completions user)))
 )
 
+;; Get quest status as string
+(define-read-only (get-quest-status-name (status uint))
+  (if (is-eq status status-active)
+    (ok "active")
+    (if (is-eq status status-completed)
+      (ok "completed")
+      (if (is-eq status status-cancelled)
+        (ok "cancelled")
+        (ok "unknown")
+      )
+    )
+  )
+)
+
