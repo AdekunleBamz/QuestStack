@@ -146,6 +146,22 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
+// Detailed health check with uptime
+app.get('/health/detailed', (req, res) => {
+  const memoryUsage = process.memoryUsage();
+  res.json({
+    status: 'ok',
+    service: 'queststack-backend',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: {
+      heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024) + 'MB',
+      heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024) + 'MB',
+      external: Math.round(memoryUsage.external / 1024 / 1024) + 'MB',
+    },
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 QuestStack Backend running on port ${PORT}`);
   console.log(`📡 Ready to receive chainhook webhooks from MAINNET`);
