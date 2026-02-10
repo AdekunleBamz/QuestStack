@@ -1,7 +1,22 @@
 /**
  * QuestStack Backend - Webhook Handler for Chainhooks
  * Handles all 9 chainhook events from MAINNET
+ * 
+ * @module backend/index
+ * @description Express server for processing Hiro chainhook webhooks
+ * 
+ * @requires PORT - Server port (default: 3001)
+ * @requires WEBHOOK_SECRET - Secret for webhook authentication
+ * @requires CORS_ORIGIN - Allowed CORS origin
+ * 
+ * @example
+ * // Start the server
+ * npm run dev
+ * 
+ * // Health check
+ * curl http://localhost:3001/health
  */
+
 
 import express from 'express';
 import cors from 'cors';
