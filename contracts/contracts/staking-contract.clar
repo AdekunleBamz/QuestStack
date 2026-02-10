@@ -90,3 +90,12 @@
   )
 )
 
+;; Get reward rate (APY calculation helper)
+(define-read-only (get-reward-rate)
+  (ok reward-rate)
+)
+
+;; Get stake timestamp for user
+(define-read-only (get-stake-timestamp (user principal))
+  (ok (default-to u0 (map-get? stake-timestamps user)))
+)
