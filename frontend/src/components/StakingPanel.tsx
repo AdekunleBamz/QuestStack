@@ -1,61 +1,76 @@
 /**
- * Staking Panel Component using @stacks/connect and @stacks/transactions
+ * StakingPanel Component
+ * UI for staking tokens and viewing stake info
+ * 
+ * @component
  */
 
-import { useStacksConnect } from '@/hooks/useStacksConnect';
-import { useTransactions } from '@/hooks/useTransactions';
+'use client';
+
 import { useState } from 'react';
 
-export function StakingPanel() {
-  const { isAuthenticated, userData } = useStacksConnect();
-  const { stake, unstake, loading } = useTransactions();
-  const [stakeAmount, setStakeAmount] = useState('');
-  const [unstakeAmount, setUnstakeAmount] = useState('');
+interface StakingPanelProps {
+  stakedAmount: number;
+  hasPremium: boolean;
+  pendingRewards: number;
+  onStake?: (amount: number) => void;
+  onUnstake?: (amount: number) => void;
+  onClaimRewards?: () => void;
+}
 
-  if (!isAuthenticated) {
-    return <p>Please connect your wallet to stake tokens</p>;
-  }
+export function StakingPanel({
+  stakedAmount,
+  hasPremium,
+  pendingRewards,
+  onStake,
+  onUnstake,
+  onClaimRewards,
+}: StakingPanelProps) {
+  const [amount, setAmount] = useState('');
+
+  const formatAmount = (val: number) => (val / 1000000).toFixed(2);
 
   const handleStake = () => {
-    const amount = parseInt(stakeAmount);
-    if (amount > 0) {
-      stake(amount);
+    const val = parseFloat(amount);
+    if (val > 0) {
+      onStake?.(val * 1000000);
+      setAmount('');
     }
   };
 
   const handleUnstake = () => {
-    const amount = parseInt(unstakeAmount);
-    if (amount > 0) {
-      unstake(amount);
+    const val = parseFloat(amount);
+    if (val > 0 && val * 1000000 <= stakedAmount) {
+      onUnstake?.(val * 1000000);
+      setAmount('');
     }
   };
 
   return (
     <div className="staking-panel">
       <h2>Staking</h2>
-      <div>
-        <input
-          type="number"
-          value={stakeAmount}
-          onChange={(e) => setStakeAmount(e.target.value)}
-          placeholder="Amount to stake"
-        />
-        <button onClick={handleStake} disabled={loading}>
-          {loading ? 'Processing...' : 'Stake'}
-        </button>
+      
+      <div className="staking-stats">
+        <div className="stat">
+          <span className="label">Staked:</span>
+          <span className="value">{formatAmount(stakedAmount)} QST</span>
+        </div>
+        <div className="stat">
+          <span className="label">Premium:</span>
+          <span className={hasPremium ? 'premium' : 'regular'}>
+            {hasPremium ? 'Premium' : 'Basic'}
+          </span>
+        </div>
       </div>
-      <div>
-        <input
-          type="number"
-          value={unstakeAmount}
-          onChange={(e) => setUnstakeAmount(e.target.value)}
-          placeholder="Amount to unstake"
-        />
-        <button onClick={handleUnstake} disabled={loading}>
-          {loading ? 'Processing...' : 'Unstake'}
-        </button>
-      </div>
+
+      <input
+        type="number"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        placeholder="Amount"
+      />
+      <button onClick={handleStake}>Stake</button>
+      <button onClick={handleUnstake}>Unstake</button>
     </div>
   );
 }
-
