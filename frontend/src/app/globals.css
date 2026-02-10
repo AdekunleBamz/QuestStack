@@ -1,3 +1,16 @@
+/* 
+ * QuestStack Global Styles
+ * Main CSS file for QuestStack dApp
+ * 
+ * @section Colors - Design token definitions
+ * @section Typography - Font settings
+ * @section Components - Component-specific styles
+ */
+
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+
 :root {
   --bg-primary: #ffffff;
   --bg-secondary: #f5f5f5;
