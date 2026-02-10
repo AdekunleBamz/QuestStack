@@ -119,3 +119,12 @@
   (ok (default-to u0 (map-get? quest-completions user)))
 )
 
+;; Check if quest is expired
+(define-read-only (is-quest-expired (quest-id uint))
+  (let ((quest (unwrap-panic (map-get? quests quest-id))))
+    (let ((current-time (unwrap-panic (stacks-block-time))))
+      (ok (> current-time (get deadline quest)))
+    )
+  )
+)
+
