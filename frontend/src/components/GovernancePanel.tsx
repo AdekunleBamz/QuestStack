@@ -1,56 +1,71 @@
 /**
- * Governance Panel Component using @stacks/connect and @stacks/transactions
+ * GovernancePanel Component
+ * UI for viewing and voting on proposals
+ * 
+ * @component
  */
 
-import { useStacksConnect } from '@/hooks/useStacksConnect';
-import { useTransactions } from '@/hooks/useTransactions';
-import { useState } from 'react';
+'use client';
 
-export function GovernancePanel() {
-  const { isAuthenticated } = useStacksConnect();
-  const { createProposal, vote, loading } = useTransactions();
-  const [proposalTitle, setProposalTitle] = useState('');
-  const [proposalDescription, setProposalDescription] = useState('');
+interface Proposal {
+  id: number;
+  title: string;
+  description: string;
+  status: string;
+  votesFor: number;
+  votesAgainst: number;
+  endTime: number;
+}
 
-  if (!isAuthenticated) {
-    return <p>Please connect your wallet to participate in governance</p>;
-  }
+interface GovernancePanelProps {
+  proposals: Proposal[];
+  onVote?: (proposalId: number, support: boolean) => void;
+  onCreateProposal?: () => void;
+}
 
-  const handleCreateProposal = () => {
-    if (proposalTitle && proposalDescription) {
-      createProposal(
-        proposalTitle,
-        proposalDescription,
-        process.env.NEXT_PUBLIC_QUEST_CONTRACT || '',
-        'update-quest-parameters'
-      );
-    }
-  };
-
-  const handleVote = (proposalId: number, support: boolean) => {
-    vote(proposalId, support);
+export function GovernancePanel({
+  proposals,
+  onVote,
+  onCreateProposal,
+}: GovernancePanelProps) {
+  const formatTime = (timestamp: number) => {
+    return new Date(timestamp * 1000).toLocaleDateString();
   };
 
   return (
     <div className="governance-panel">
-      <h2>Governance</h2>
-      <div>
-        <input
-          type="text"
-          value={proposalTitle}
-          onChange={(e) => setProposalTitle(e.target.value)}
-          placeholder="Proposal Title"
-        />
-        <textarea
-          value={proposalDescription}
-          onChange={(e) => setProposalDescription(e.target.value)}
-          placeholder="Proposal Description"
-        />
-        <button onClick={handleCreateProposal} disabled={loading}>
-          {loading ? 'Processing...' : 'Create Proposal'}
-        </button>
+      <div className="panel-header">
+        <h2>Governance</h2>
+        <button onClick={onCreateProposal}>New Proposal</button>
+      </div>
+
+      <div className="proposals-list">
+        {proposals.map((proposal) => (
+          <div key={proposal.id} className="proposal-card">
+            <h3>{proposal.title}</h3>
+            <p>{proposal.description}</p>
+            
+            <div className="proposal-meta">
+              <span className="status">Status: {proposal.status}</span>
+              <span className="deadline">Ends: {formatTime(proposal.endTime)}</span>
+            </div>
+
+            <div className="vote-stats">
+              <span className="for">For: {proposal.votesFor}</span>
+              <span className="against">Against: {proposal.votesAgainst}</span>
+            </div>
+
+            <div className="vote-actions">
+              <button onClick={() => onVote?.(proposal.id, true)}>
+                Vote For
+              </button>
+              <button onClick={() => onVote?.(proposal.id, false)}>
+                Vote Against
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
-

@@ -1,70 +1,43 @@
 # QuestStack Smart Contracts
 
-Four Clarity 4 smart contracts for the QuestStack platform.
+Clarity smart contracts for QuestStack dApp on Stacks blockchain
 
 ## Contracts
 
-### 1. reward-token.clar
-ERC-20-like token for quest rewards.
+### quest-contract.clar
+Main quest management contract for creating, completing, and claiming rewards
 
-**Functions:**
-- `transfer` - Transfer tokens
-- `mint` - Mint new tokens (owner only)
-- `burn` - Burn tokens
-- `approve` - Approve spender
-- `transfer-from` - Transfer from approved account
+### staking-contract.clar
+Token staking contract with premium access and reward distribution
 
-**Clarity 4 Features:**
-- Uses `restrict-assets?` for secure transfers
+### governance-contract.clar
+DAO governance contract for proposal creation and voting
 
-### 2. quest-contract.clar
-Manages quest creation, completion, and rewards.
-
-**Functions:**
-- `create-quest` - Create a new quest
-- `complete-quest` - Mark quest as completed
-- `claim-reward` - Claim reward for completed quest
-- `cancel-quest` - Cancel a quest (creator only)
-
-**Clarity 4 Features:**
-- Uses `contract-hash?` to verify reward token contract
-- Uses `stacks-block-time` for deadline checking
-
-### 3. staking-contract.clar
-Token staking for premium quest access.
-
-**Functions:**
-- `stake` - Stake tokens
-- `unstake` - Unstake tokens
-- `claim-staking-rewards` - Claim staking rewards
-
-**Clarity 4 Features:**
-- Uses `contract-hash?` to verify token contract
-- Uses `restrict-assets?` for secure transfers
-
-### 4. governance-contract.clar
-DAO-style governance for platform parameters.
-
-**Functions:**
-- `propose` - Create a governance proposal
-- `vote` - Vote on a proposal
-- `execute-proposal` - Execute a passed proposal
-
-**Clarity 4 Features:**
-- Uses `stacks-block-time` for voting deadlines
-- Uses `contract-hash?` to verify contracts
+### reward-token.clar
+ERC-20-like reward token (QST)
 
 ## Deployment
 
-Deploy to MAINNET using Clarinet:
-
 ```bash
-clarinet deployments apply -p mainnet
+# Deploy to testnet
+clarinet testnet deploy
+
+# Deploy to mainnet
+clarinet mainnet deploy
 ```
 
 ## Testing
 
 ```bash
+# Run unit tests
 clarinet test
+
+# Check contract syntax
+clarinet check
 ```
 
+## Constants
+
+- Quest statuses: active(1), completed(2), cancelled(3)
+- Proposal statuses: pending(1), active(2), passed(3), rejected(4), executed(5)
+- Token decimals: 6
