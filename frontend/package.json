@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@stacks/connect": "^8.2.5",
-    "@stacks/transactions": "^6.10.0",
+    "@stacks/transactions": "^7.3.1",
     "@stacks/network": "^7.3.1",
     "@stacks/auth": "^6.10.0",
     "next": "14.0.4",
